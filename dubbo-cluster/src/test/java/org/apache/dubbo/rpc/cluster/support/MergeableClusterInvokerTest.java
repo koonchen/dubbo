@@ -22,14 +22,13 @@ import org.apache.dubbo.rpc.AsyncRpcResult;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
+import org.apache.dubbo.rpc.RpcInvocation;
 import org.apache.dubbo.rpc.cluster.Directory;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,7 +93,7 @@ public class MergeableClusterInvokerTest {
         directory = mock(Directory.class);
         firstInvoker = mock(Invoker.class);
         secondInvoker = mock(Invoker.class);
-        invocation = mock(Invocation.class);
+        invocation = mock(RpcInvocation.class);
 
     }
 
@@ -107,7 +106,7 @@ public class MergeableClusterInvokerTest {
         given(invocation.getMethodName()).willReturn("getMenu");
         given(invocation.getParameterTypes()).willReturn(new Class<?>[]{});
         given(invocation.getArguments()).willReturn(new Object[]{});
-        given(invocation.getAttachments()).willReturn(new HashMap<String, String>())
+        given(invocation.getObjectAttachments()).willReturn(new HashMap<>())
                 ;
         given(invocation.getInvoker()).willReturn(firstInvoker);
 
@@ -145,6 +144,8 @@ public class MergeableClusterInvokerTest {
             }
         });
         given(directory.getUrl()).willReturn(url);
+        given(directory.getConsumerUrl()).willReturn(url);
+        given(directory.getConsumerUrl()).willReturn(url);
         given(directory.getInterface()).willReturn(MenuService.class);
 
         mergeableClusterInvoker = new MergeableClusterInvoker<MenuService>(directory);
@@ -184,7 +185,7 @@ public class MergeableClusterInvokerTest {
                 new Class<?>[]{String.class, List.class});
         given(invocation.getArguments()).willReturn(new Object[]{menu, menuItems})
                 ;
-        given(invocation.getAttachments()).willReturn(new HashMap<String, String>())
+        given(invocation.getObjectAttachments()).willReturn(new HashMap<>())
                 ;
         given(invocation.getInvoker()).willReturn(firstInvoker);
 
@@ -210,6 +211,8 @@ public class MergeableClusterInvokerTest {
             }
         });
         given(directory.getUrl()).willReturn(url);
+        given(directory.getConsumerUrl()).willReturn(url);
+        given(directory.getConsumerUrl()).willReturn(url);
         given(directory.getInterface()).willReturn(MenuService.class);
 
         mergeableClusterInvoker = new MergeableClusterInvoker<MenuService>(directory);

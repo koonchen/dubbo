@@ -18,7 +18,7 @@ package org.apache.dubbo.remoting.transport.grizzly;
 
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.utils.NetUtils;
-import org.apache.dubbo.remoting.Server;
+import org.apache.dubbo.remoting.RemotingServer;
 import org.apache.dubbo.remoting.transport.ChannelHandlerAdapter;
 
 import org.junit.jupiter.api.Test;
@@ -31,10 +31,10 @@ public class GrizzlyTransporterTest {
     @Test
     public void shouldAbleToBindGrizzly() throws Exception {
         int port = NetUtils.getAvailablePort();
-        URL url = new URL("http", "localhost", port,
+        URL url = new URL("telnet", "localhost", port,
                 new String[]{BIND_PORT_KEY, String.valueOf(port)});
 
-        Server server = new GrizzlyTransporter().bind(url, new ChannelHandlerAdapter());
+        RemotingServer server = new GrizzlyTransporter().bind(url, new ChannelHandlerAdapter());
 
         assertThat(server.isBound(), is(true));
     }
